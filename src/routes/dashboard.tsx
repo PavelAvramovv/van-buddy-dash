@@ -74,7 +74,7 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+      <main className="ambient mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl uppercase sm:text-3xl">Моето табло</h1>
@@ -92,7 +92,7 @@ function Dashboard() {
         {/* Bento */}
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           {/* Active rental — hero tile */}
-          <section className="on-dark relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow lg:col-span-2 lg:p-6">
+          <section className="on-dark sheen relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow ring-1 ring-white/10 lg:col-span-2 lg:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
@@ -125,7 +125,7 @@ function Dashboard() {
           </section>
 
           {/* Fuel gauge tile */}
-          <section className="rounded-3xl border border-border bg-card p-5 shadow-card">
+          <section className="card-premium p-5">
             <TileTitle icon={<Gauge className="size-4" />} title="Гориво" hint="GPS сензор" />
             <div className="mt-2">
               <FuelGauge
@@ -137,7 +137,7 @@ function Dashboard() {
           </section>
 
           {/* Mileage tile */}
-          <section className="rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2">
+          <section className="card-premium p-5 lg:col-span-2">
             <TileTitle
               icon={<RouteIcon className="size-4" />}
               title="Пробег"
@@ -153,7 +153,7 @@ function Dashboard() {
           </section>
 
           {/* Upcoming */}
-          <section className="on-dark rounded-3xl bg-gradient-upcoming p-5 shadow-card">
+          <section className="on-dark sheen relative overflow-hidden rounded-3xl bg-gradient-upcoming p-5 shadow-elevated ring-1 ring-white/10">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]">
               <CalendarClock className="size-3.5" />
               Предстоящ наем
@@ -175,18 +175,18 @@ function Dashboard() {
           </section>
 
           {/* Loyalty */}
-          <section className="rounded-3xl border border-border bg-card p-5 shadow-card">
+          <section className="card-premium p-5">
             <TileTitle
-              icon={<Star className="size-4 text-warning" />}
+              icon={<Star className="size-4 text-gold-deep" />}
               title="Лоялност"
               hint={`макс. ${maxDiscount}%`}
             />
             <p className="tabular mt-3 font-display text-4xl leading-none">
               {customer.loyaltyDiscount}%
             </p>
-            <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-secondary">
+            <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-secondary inset-ring inset-ring-black/5">
               <div
-                className="h-full rounded-full bg-warning transition-[width] duration-700"
+                className="h-full rounded-full bg-gradient-gold shadow-[0_0_12px_oklch(0.82_0.11_85/0.55)] transition-[width] duration-700"
                 style={{ width: `${(customer.loyaltyDiscount / maxDiscount) * 100}%` }}
               />
             </div>
@@ -196,7 +196,7 @@ function Dashboard() {
           </section>
 
           {/* Referral */}
-          <section className="rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2">
+          <section className="card-premium p-5 lg:col-span-2">
             <TileTitle
               icon={<Gift className="size-4 text-primary" />}
               title="Покани приятел"
@@ -238,14 +238,14 @@ function Dashboard() {
           {/* Reservations */}
           <section
             id="reservations"
-            className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2"
+            className="scroll-mt-24 card-premium p-5 lg:col-span-2"
           >
             <TileTitle title="Моите резервации" hint={`${reservations.length} записа`} />
             <div className="mt-3 space-y-2.5">
               {reservations.map((r) => (
                 <div
                   key={r.id}
-                  className="rounded-2xl border border-border bg-secondary/50 p-4 transition-shadow hover:shadow-card"
+                  className="rounded-2xl border border-border/70 bg-gradient-to-b from-secondary/60 to-secondary/20 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:shadow-card"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
@@ -284,14 +284,14 @@ function Dashboard() {
             {/* Contracts */}
             <section
               id="contracts"
-              className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card"
+              className="scroll-mt-24 card-premium p-5"
             >
               <TileTitle title="Договори" hint={`${contracts.length} бр.`} />
               <div className="mt-3 space-y-2.5">
                 {contracts.map((c) => (
                   <div
                     key={c.id}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/50 p-3.5"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-border/70 bg-gradient-to-b from-secondary/60 to-secondary/20 p-3.5 transition-colors hover:border-border"
                   >
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">{c.reference}</p>
@@ -316,14 +316,14 @@ function Dashboard() {
             {/* Payments */}
             <section
               id="payments"
-              className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card"
+              className="scroll-mt-24 card-premium p-5"
             >
               <TileTitle title="Плащания" hint="история" />
               <div className="mt-3 space-y-2">
                 {payments.map((p) => (
                   <div
                     key={p.id}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/50 px-3.5 py-2.5"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-border/70 bg-gradient-to-b from-secondary/60 to-secondary/20 px-3.5 py-2.5"
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-semibold">
@@ -360,8 +360,10 @@ function Dashboard() {
 function Stat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
     <div
-      className={`min-w-[92px] rounded-2xl border border-border px-3.5 py-2.5 shadow-card ${
-        accent ? "bg-navy text-white" : "bg-card"
+      className={`min-w-[96px] rounded-2xl px-3.5 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 ${
+        accent
+          ? "bg-navy text-white shadow-glow ring-1 ring-white/10"
+          : "card-premium"
       }`}
     >
       <p className="tabular font-display text-xl leading-none">{value}</p>
@@ -383,7 +385,7 @@ function TileTitle({
 }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <h2 className="flex items-center gap-2 text-sm uppercase tracking-tight">
+      <h2 className="flex items-center gap-2 text-sm uppercase tracking-[0.06em]">
         {icon}
         {title}
       </h2>
