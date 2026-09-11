@@ -28,7 +28,7 @@ export function BrandBadge({
   return (
     <div
       className={cn(
-        "flex items-center gap-2 rounded-full border border-border/70 bg-background/40 backdrop-blur-sm",
+        "flex items-center gap-2 rounded-full border border-border bg-foreground/5 backdrop-blur-sm",
         size === "md" ? "py-1.5 pl-1.5 pr-3.5" : "py-1 pl-1 pr-3",
         className,
       )}
@@ -36,7 +36,7 @@ export function BrandBadge({
     >
       <span
         className={cn(
-          "grid place-items-center rounded-full bg-foreground/95 font-bold tracking-tight text-navy",
+          "grid place-items-center rounded-full bg-primary font-bold tracking-tight text-primary-foreground",
           size === "md" ? "size-8 text-[11px]" : "size-6 text-[10px]",
         )}
       >
@@ -44,7 +44,7 @@ export function BrandBadge({
       </span>
       <span
         className={cn(
-          "font-semibold uppercase tracking-[0.14em] text-foreground/90",
+          "font-semibold uppercase tracking-[0.14em] text-foreground/80",
           size === "md" ? "text-xs" : "text-[10px]",
         )}
       >
