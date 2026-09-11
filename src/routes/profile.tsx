@@ -53,7 +53,7 @@ function ProfileScreen() {
         </div>
       </div>
 
-      <Card className="mt-6 rounded-3xl border-border bg-card shadow-card">
+      <Card className="mt-6 card-premium border-0">
         <CardHeader>
           <CardTitle className="text-base">Лични данни</CardTitle>
           <CardDescription>Използваме ги за договорите и фактурите.</CardDescription>
@@ -124,7 +124,7 @@ function ProfileScreen() {
         </CardContent>
       </Card>
 
-      <Card className="mt-5 rounded-3xl border-border bg-card shadow-card">
+      <Card className="mt-5 card-premium border-0">
         <CardHeader>
           <CardTitle className="text-base">Имейл за вход</CardTitle>
           <CardDescription>
