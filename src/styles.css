@@ -225,9 +225,7 @@
   transition:
     box-shadow var(--transition-smooth),
     transform var(--transition-smooth);
-}
 
-@utility card-premium {
   &:hover {
     transform: translateY(-2px);
     box-shadow:
@@ -236,6 +234,7 @@
       var(--shadow-elevated);
   }
 }
+
 
 /* Фин светлинен отблясък върху тъмни повърхности */
 @utility sheen {
