@@ -110,7 +110,7 @@ function Dashboard() {
               <BrandBadge brand={activeRental.brand} />
             </div>
 
-            <div className="mt-5 rounded-2xl border border-border bg-white/5 p-4">
+            <div className="glass mt-5 rounded-2xl p-4">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 До връщане на буса
               </p>
