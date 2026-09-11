@@ -176,13 +176,17 @@ function Dashboard() {
           </section>
 
           {/* Loyalty */}
-          <section className="card-premium p-5">
+          <section className="card-premium relative overflow-hidden p-5">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -right-10 -top-12 size-36 rounded-full bg-gold/20 blur-2xl"
+            />
             <TileTitle
               icon={<Star className="size-4 text-gold-deep" />}
               title="Лоялност"
               hint={`макс. ${maxDiscount}%`}
             />
-            <p className="tabular mt-3 font-display text-4xl leading-none">
+            <p className="tabular mt-3 bg-gradient-gold bg-clip-text font-display text-4xl leading-none text-transparent">
               {customer.loyaltyDiscount}%
             </p>
             <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-secondary inset-ring inset-ring-black/5">
