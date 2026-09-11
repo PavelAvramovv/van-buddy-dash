@@ -77,7 +77,8 @@ function Dashboard() {
       <main className="ambient mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 className="text-2xl uppercase sm:text-3xl">Моето табло</h1>
+            <p className="eyebrow">24Cargo · клиентски портал</p>
+            <h1 className="mt-1.5 text-2xl uppercase sm:text-3xl">Моето табло</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Здравейте, {customer.firstName} · клиент от {customer.memberSince}
             </p>
@@ -92,7 +93,7 @@ function Dashboard() {
         {/* Bento */}
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           {/* Active rental — hero tile */}
-          <section className="on-dark sheen relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow ring-1 ring-white/10 lg:col-span-2 lg:p-6">
+          <section className="on-dark sheen grain relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow ring-1 ring-white/10 lg:col-span-2 lg:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
@@ -109,7 +110,7 @@ function Dashboard() {
               <BrandBadge brand={activeRental.brand} />
             </div>
 
-            <div className="mt-5 rounded-2xl border border-border bg-white/5 p-4">
+            <div className="glass mt-5 rounded-2xl p-4">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 До връщане на буса
               </p>
@@ -153,7 +154,7 @@ function Dashboard() {
           </section>
 
           {/* Upcoming */}
-          <section className="on-dark sheen relative overflow-hidden rounded-3xl bg-gradient-upcoming p-5 shadow-elevated ring-1 ring-white/10">
+          <section className="on-dark sheen sweep relative overflow-hidden rounded-3xl bg-gradient-upcoming p-5 shadow-elevated ring-1 ring-white/10">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]">
               <CalendarClock className="size-3.5" />
               Предстоящ наем
@@ -175,13 +176,17 @@ function Dashboard() {
           </section>
 
           {/* Loyalty */}
-          <section className="card-premium p-5">
+          <section className="card-premium relative overflow-hidden p-5">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -right-10 -top-12 size-36 rounded-full bg-gold/20 blur-2xl"
+            />
             <TileTitle
               icon={<Star className="size-4 text-gold-deep" />}
               title="Лоялност"
               hint={`макс. ${maxDiscount}%`}
             />
-            <p className="tabular mt-3 font-display text-4xl leading-none">
+            <p className="tabular mt-3 bg-gradient-gold bg-clip-text font-display text-4xl leading-none text-transparent">
               {customer.loyaltyDiscount}%
             </p>
             <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-secondary inset-ring inset-ring-black/5">
@@ -362,7 +367,7 @@ function Stat({ value, label, accent }: { value: string; label: string; accent?:
     <div
       className={`min-w-[96px] rounded-2xl px-3.5 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 ${
         accent
-          ? "bg-navy text-white shadow-glow ring-1 ring-white/10"
+          ? "bg-gradient-hero text-white shadow-glow ring-1 ring-gold/25"
           : "card-premium"
       }`}
     >
