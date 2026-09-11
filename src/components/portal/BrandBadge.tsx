@@ -1,55 +1,53 @@
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 
-const marks: Record<string, { label: string; short: string }> = {
-  Peugeot: { label: "Peugeot", short: "PE" },
-  Fiat: { label: "Fiat", short: "FI" },
-  "Citroën": { label: "Citroën", short: "CI" },
-  Citroen: { label: "Citroën", short: "CI" },
-  Renault: { label: "Renault", short: "RE" },
-  VW: { label: "Volkswagen", short: "VW" },
-  Volkswagen: { label: "Volkswagen", short: "VW" },
-  Mercedes: { label: "Mercedes-Benz", short: "MB" },
-  Ford: { label: "Ford", short: "FO" },
-  Iveco: { label: "Iveco", short: "IV" },
-  "24Cargo": { label: "24Cargo", short: "24" },
+const marks: Record<string, { label: string }> = {
+  Peugeot: { label: "Peugeot" },
+  Fiat: { label: "Fiat" },
+  "Citroën": { label: "Citroën" },
+  Citroen: { label: "Citroën" },
+  Renault: { label: "Renault" },
+  VW: { label: "Volkswagen" },
+  Volkswagen: { label: "Volkswagen" },
+  Mercedes: { label: "Mercedes-Benz" },
+  Ford: { label: "Ford" },
+  Iveco: { label: "Iveco" },
+  "24Cargo": { label: "24Cargo" },
 };
 
 export function BrandBadge({
   brand,
   className,
   size = "md",
+  showLabel = true,
 }: {
   brand: string;
   className?: string;
   size?: "sm" | "md";
+  showLabel?: boolean;
 }) {
-  const mark = marks[brand] ?? { label: "24Cargo", short: "24" };
+  const mark = marks[brand] ?? { label: "24Cargo" };
 
   return (
     <div
       className={cn(
-        "flex items-center gap-2 rounded-full border border-border bg-foreground/5 backdrop-blur-sm",
+        "inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 backdrop-blur-sm",
         size === "md" ? "py-1.5 pl-1.5 pr-3.5" : "py-1 pl-1 pr-3",
         className,
       )}
       aria-label={`Марка: ${mark.label}`}
     >
-      <span
-        className={cn(
-          "grid place-items-center rounded-full bg-primary font-bold tracking-tight text-primary-foreground",
-          size === "md" ? "size-8 text-[11px]" : "size-6 text-[10px]",
-        )}
-      >
-        {mark.short}
-      </span>
-      <span
-        className={cn(
-          "font-semibold uppercase tracking-[0.14em] text-foreground/80",
-          size === "md" ? "text-xs" : "text-[10px]",
-        )}
-      >
-        {mark.label}
-      </span>
+      <BrandLogo brand={brand} size={size} />
+      {showLabel && (
+        <span
+          className={cn(
+            "font-semibold uppercase tracking-[0.12em] text-white/90",
+            size === "md" ? "text-xs" : "text-[10px]",
+          )}
+        >
+          {mark.label}
+        </span>
+      )}
     </div>
   );
 }
