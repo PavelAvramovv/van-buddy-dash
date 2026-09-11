@@ -26,7 +26,7 @@ export function MileageTrack({ drivenKm, includedKm, extraKmPrice }: Props) {
     <div>
       <div className="mb-2.5 flex items-end justify-between">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-          Пробег
+          Изминати километри
         </p>
         <p className="tabular text-sm font-semibold text-foreground">
           {drivenKm} <span className="text-muted-foreground">/ {includedKm} км</span>

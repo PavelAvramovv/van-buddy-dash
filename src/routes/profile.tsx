@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AppShell } from "@/components/portal/AppShell";
 import { customer, initials } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/profile")({
@@ -32,6 +33,7 @@ function ProfileScreen() {
   const [emailPending, setEmailPending] = useState(false);
 
   return (
+    <AppShell>
     <main className="mx-auto w-full max-w-2xl px-4 pb-16 pt-6 sm:px-6">
       <Link
         to="/dashboard"
@@ -185,5 +187,6 @@ function ProfileScreen() {
         </CardContent>
       </Card>
     </main>
+    </AppShell>
   );
 }

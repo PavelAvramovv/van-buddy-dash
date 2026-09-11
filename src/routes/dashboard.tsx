@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   CalendarClock,
   Check,
   Copy,
   Download,
-  FileText,
+  Gauge,
   Gift,
-  LogOut,
   MapPin,
   Repeat,
+  Route as RouteIcon,
   Star,
-  Truck,
-  User,
-  Wallet,
+  Users,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AppShell } from "@/components/portal/AppShell";
 import { BrandBadge } from "@/components/portal/BrandBadge";
 import { Countdown } from "@/components/portal/Countdown";
 import { FuelGauge } from "@/components/portal/FuelGauge";
@@ -31,7 +29,6 @@ import {
   contracts,
   customer,
   eur,
-  initials,
   payments,
   reservations,
   upcomingRental,
@@ -76,330 +73,321 @@ function Dashboard() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-5 sm:px-6">
-      {/* Hero header */}
-      <section className="rounded-3xl border border-border bg-gradient-hero p-5 shadow-card">
-        <div className="flex items-center gap-4">
-          <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary text-lg font-bold text-primary-foreground shadow-glow">
-            {initials}
-          </span>
-          <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              24Cargo клиентски портал
-            </p>
-            <h1 className="mt-0.5 truncate text-xl font-bold tracking-tight sm:text-2xl">
-              {customer.firstName} {customer.lastName}
-            </h1>
-            <p className="text-sm text-muted-foreground">{customer.phone}</p>
-          </div>
-        </div>
-
-        <div className="mt-4 flex gap-2.5">
-          <Button asChild variant="secondary" className="h-10 flex-1 rounded-xl">
-            <Link to="/profile">
-              <User className="mr-2 size-4" />
-              Профил
-            </Link>
-          </Button>
-          <Button asChild variant="outline" className="h-10 flex-1 rounded-xl">
-            <Link to="/">
-              <LogOut className="mr-2 size-4" />
-              Изход
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Stat cards */}
-      <section className="mt-4 grid grid-cols-3 gap-2.5">
-        <StatCard emoji="🚐" value={String(customer.completedRentals)} label="завършени наеми" />
-        <StatCard emoji="💶" value={`${Math.round(customer.totalPaid)}`} label="общо платено (EUR)" />
-        <StatCard emoji="⭐" value={`${customer.loyaltyDiscount}%`} label="лоялна отстъпка" />
-      </section>
-
-      {/* Active rental */}
-      <section className="mt-4 overflow-hidden rounded-3xl border border-primary/35 bg-gradient-active shadow-glow">
-        <div className="p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-primary-foreground">
-              <span className="size-1.5 animate-pulse rounded-full bg-primary-foreground" />
-              Активен наем
-            </span>
-            <BrandBadge brand={activeRental.brand} />
-          </div>
-
-          <h2 className="mt-4 text-2xl font-bold leading-tight tracking-tight">
-            {activeRental.vehicle}
-          </h2>
-          <p className="mt-1 text-sm text-foreground/70">
-            {activeRental.plate} · взет {activeRental.pickedUpAt} · №{activeRental.reference}
-          </p>
-
-          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-foreground/60">
-            До връщане на буса
-          </p>
-          <div className="mt-2.5">
-            <Countdown target={activeRental.returnAt} />
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-border/50 bg-background/35 p-4 backdrop-blur-sm">
-            <MileageTrack
-              drivenKm={activeRental.drivenKm}
-              includedKm={activeRental.includedKm}
-              extraKmPrice={activeRental.extraKmPrice}
-            />
-          </div>
-
-          <div className="mt-3 rounded-2xl border border-border/50 bg-background/35 p-4 pt-5 backdrop-blur-sm">
-            <FuelGauge
-              level={activeRental.fuelLevel}
-              litersUsed={activeRental.litersUsed}
-              tankCapacity={activeRental.tankCapacity}
-            />
-          </div>
-
-          <div className="mt-4 space-y-2.5">
-            <UploadReceiptDialog />
-            <ReturnVanDialog vehicle={activeRental.vehicle} plate={activeRental.plate} />
-          </div>
-        </div>
-      </section>
-
-      {/* Upcoming rental */}
-      <section className="mt-4 rounded-3xl border border-info/30 bg-gradient-upcoming p-5 shadow-card">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-info/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-info">
-            <CalendarClock className="size-3.5" />
-            Предстоящ наем
-          </span>
-          <BrandBadge brand={upcomingRental.brand} size="sm" />
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+    <AppShell>
+      <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-xl font-bold tracking-tight">{upcomingRental.vehicle}</h2>
-            <p className="mt-1 flex items-center gap-1.5 text-sm text-foreground/70">
+            <h1 className="text-2xl uppercase sm:text-3xl">Моето табло</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Здравейте, {customer.firstName} · клиент от {customer.memberSince}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Stat value={String(customer.completedRentals)} label="завършени наеми" />
+            <Stat value={`${Math.round(customer.totalPaid)}`} label="платено (EUR)" />
+            <Stat value={`${customer.loyaltyDiscount}%`} label="отстъпка" accent />
+          </div>
+        </div>
+
+        {/* Bento */}
+        <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
+          {/* Active rental — hero tile */}
+          <section className="on-dark relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow lg:col-span-2 lg:p-6">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
+                  <span className="size-1.5 animate-pulse rounded-full bg-primary-foreground" />
+                  Активен наем
+                </span>
+                <h2 className="mt-3 text-2xl uppercase leading-tight sm:text-3xl">
+                  {activeRental.vehicle}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {activeRental.plate} · взет {activeRental.pickedUpAt} · №{activeRental.reference}
+                </p>
+              </div>
+              <BrandBadge brand={activeRental.brand} />
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-border bg-white/5 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                До връщане на буса
+              </p>
+              <div className="mt-2.5">
+                <Countdown target={activeRental.returnAt} />
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+              <UploadReceiptDialog />
+              <ReturnVanDialog vehicle={activeRental.vehicle} plate={activeRental.plate} />
+            </div>
+          </section>
+
+          {/* Fuel gauge tile */}
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-card">
+            <TileTitle icon={<Gauge className="size-4" />} title="Гориво" hint="GPS сензор" />
+            <div className="mt-2">
+              <FuelGauge
+                level={activeRental.fuelLevel}
+                litersUsed={activeRental.litersUsed}
+                tankCapacity={activeRental.tankCapacity}
+              />
+            </div>
+          </section>
+
+          {/* Mileage tile */}
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2">
+            <TileTitle
+              icon={<RouteIcon className="size-4" />}
+              title="Пробег"
+              hint={`${activeRental.includedKm} км включени`}
+            />
+            <div className="mt-4">
+              <MileageTrack
+                drivenKm={activeRental.drivenKm}
+                includedKm={activeRental.includedKm}
+                extraKmPrice={activeRental.extraKmPrice}
+              />
+            </div>
+          </section>
+
+          {/* Upcoming */}
+          <section className="on-dark rounded-3xl bg-gradient-upcoming p-5 shadow-card">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]">
+              <CalendarClock className="size-3.5" />
+              Предстоящ наем
+            </span>
+            <h2 className="mt-3 text-xl uppercase leading-tight">{upcomingRental.vehicle}</h2>
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-white/75">
               <MapPin className="size-3.5" />
               {upcomingRental.pickupPoint}
             </p>
-          </div>
-          <div className="text-right">
-            <p className="tabular text-3xl font-bold leading-none">{daysToStart}</p>
-            <p className="text-xs uppercase tracking-wider text-foreground/60">дни до началото</p>
-          </div>
-        </div>
-
-        <p className="mt-3 text-sm text-foreground/70">
-          {upcomingRental.days} дни · {eur(upcomingRental.price)} · №{upcomingRental.reference}
-        </p>
-      </section>
-
-      {/* Loyalty */}
-      <Card className="mt-4 rounded-3xl border-border bg-card shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Star className="size-4 text-warning" />
-            Програма за лоялност
-          </CardTitle>
-          <CardDescription>
-            2% отстъпка за всеки завършен наем, до 20% при 10 наема.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-end justify-between">
-            <p className="tabular text-3xl font-bold leading-none">{customer.loyaltyDiscount}%</p>
-            <p className="text-xs text-muted-foreground">макс. {maxDiscount}%</p>
-          </div>
-          <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-secondary">
-            <div
-              className="h-full rounded-full bg-warning transition-[width] duration-700"
-              style={{ width: `${(customer.loyaltyDiscount / maxDiscount) * 100}%` }}
-            />
-          </div>
-          <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-            <span>{customer.completedRentals} от 10 наема</span>
-            <span>още {10 - customer.completedRentals} наема до 20%</span>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Referral */}
-      <Card className="mt-4 rounded-3xl border-border bg-card shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Gift className="size-4 text-primary" />
-            Покани приятел
-          </CardTitle>
-          <CardDescription>
-            Приятелят получава 10% отстъпка, вие — безплатен ден при следващия наем.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-2">
-            <Input readOnly value={referralLink} className="h-11 rounded-xl bg-secondary text-sm" />
-            <Button variant="secondary" onClick={copy} className="h-11 shrink-0 rounded-xl px-3.5">
-              {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
-              <span className="sr-only">Копирай линка</span>
-            </Button>
-          </div>
-
-          <Button
-            asChild
-            variant="outline"
-            className="mt-2.5 h-11 w-full rounded-xl border-success/40 text-success hover:bg-success/10 hover:text-success"
-          >
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(
-                `Наемам бус от 24Cargo — вземи 10% отстъпка с моя линк: ${referralLink}`,
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Сподели в WhatsApp
-            </a>
-          </Button>
-
-          <p className="mt-3 text-xs text-muted-foreground">
-            Поканени приятели:{" "}
-            <span className="font-semibold text-foreground">{customer.invitedFriends}</span>
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Reservations */}
-      <Card className="mt-4 rounded-3xl border-border bg-card shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Truck className="size-4 text-muted-foreground" />
-            Моите резервации
-          </CardTitle>
-          <CardDescription>Всички наеми и заявки по вашия номер.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2.5">
-          {reservations.map((r) => (
-            <div key={r.id} className="rounded-2xl border border-border bg-secondary/40 p-4">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="truncate font-semibold">{r.vehicle}</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    {r.from} – {r.to} · {r.service}
-                  </p>
-                </div>
-                <StatusPill status={r.status} />
+            <div className="mt-4 flex items-end justify-between">
+              <div>
+                <p className="tabular font-display text-4xl leading-none">{daysToStart}</p>
+                <p className="text-xs uppercase tracking-wider text-white/70">дни до началото</p>
               </div>
-
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">{eur(r.price)}</span> ·{" "}
-                  {r.paymentMethod}
-                </p>
-                {r.status === "completed" && (
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="h-9 rounded-xl"
-                    onClick={() => toast.success(`Заявка за нов наем на ${r.vehicle} е започната.`)}
-                  >
-                    <Repeat className="mr-1.5 size-3.5" />
-                    Наеми пак
-                  </Button>
-                )}
-              </div>
+              <p className="text-sm text-white/85">
+                {upcomingRental.days} дни · {eur(upcomingRental.price)}
+              </p>
             </div>
-          ))}
-        </CardContent>
-      </Card>
+          </section>
 
-      {/* Contracts */}
-      <Card className="mt-4 rounded-3xl border-border bg-card shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <FileText className="size-4 text-muted-foreground" />
-            Моите договори
-          </CardTitle>
-          <CardDescription>Подписани договори за наем.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2.5">
-          {contracts.map((c) => (
-            <div
-              key={c.id}
-              className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/40 p-4"
-            >
-              <div className="min-w-0">
-                <p className="truncate font-semibold">{c.reference}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {c.vehicle} · подписан {c.signedAt} · PDF {c.fileSize}
-                </p>
+          {/* Loyalty */}
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-card">
+            <TileTitle
+              icon={<Star className="size-4 text-warning" />}
+              title="Лоялност"
+              hint={`макс. ${maxDiscount}%`}
+            />
+            <p className="tabular mt-3 font-display text-4xl leading-none">
+              {customer.loyaltyDiscount}%
+            </p>
+            <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-secondary">
+              <div
+                className="h-full rounded-full bg-warning transition-[width] duration-700"
+                style={{ width: `${(customer.loyaltyDiscount / maxDiscount) * 100}%` }}
+              />
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {customer.completedRentals} от 10 наема · още {10 - customer.completedRentals} до 20%
+            </p>
+          </section>
+
+          {/* Referral */}
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2">
+            <TileTitle
+              icon={<Gift className="size-4 text-primary" />}
+              title="Покани приятел"
+              hint={
+                <span className="inline-flex items-center gap-1.5">
+                  <Users className="size-3.5" />
+                  {customer.invitedFriends} поканени
+                </span>
+              }
+            />
+            <p className="mt-2 text-sm text-muted-foreground">
+              Приятелят получава 10% отстъпка, вие — безплатен ден при следващия наем.
+            </p>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+              <div className="flex flex-1 gap-2">
+                <Input readOnly value={referralLink} className="h-11 rounded-xl bg-secondary text-sm" />
+                <Button variant="secondary" onClick={copy} className="h-11 shrink-0 rounded-xl px-3.5">
+                  {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
+                  <span className="sr-only">Копирай линка</span>
+                </Button>
               </div>
               <Button
-                size="sm"
-                variant="secondary"
-                className="h-9 rounded-xl"
-                onClick={() => toast.success("Изтеглянето на PDF започна.")}
+                asChild
+                className="h-11 rounded-xl bg-success text-success-foreground hover:bg-success/90"
               >
-                <Download className="mr-1.5 size-3.5" />
-                Свали PDF
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(
+                    `Наемам бус от 24Cargo — вземи 10% отстъпка с моя линк: ${referralLink}`,
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Сподели в WhatsApp
+                </a>
               </Button>
             </div>
-          ))}
-        </CardContent>
-      </Card>
+          </section>
 
-      {/* Payments */}
-      <Card className="mt-4 rounded-3xl border-border bg-card shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Wallet className="size-4 text-muted-foreground" />
-            Плащания
-          </CardTitle>
-          <CardDescription>История на плащанията по вашия профил.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2.5">
-            {payments.map((p) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/40 px-4 py-3"
-              >
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold">
-                    {eur(p.amount)}
-                    {p.status === "refunded" && (
-                      <span className="ml-2 text-xs font-medium text-muted-foreground">
-                        възстановено
-                      </span>
-                    )}
-                  </p>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    {p.date} · №{p.reference} · {p.method}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Button
-            variant="secondary"
-            className="mt-3 h-11 w-full rounded-xl"
-            onClick={() => toast.success("Справката (CSV) се генерира.")}
+          {/* Reservations */}
+          <section
+            id="reservations"
+            className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card lg:col-span-2"
           >
-            <Download className="mr-2 size-4" />
-            Свали справка (CSV)
-          </Button>
-        </CardContent>
-      </Card>
-    </main>
+            <TileTitle title="Моите резервации" hint={`${reservations.length} записа`} />
+            <div className="mt-3 space-y-2.5">
+              {reservations.map((r) => (
+                <div
+                  key={r.id}
+                  className="rounded-2xl border border-border bg-secondary/50 p-4 transition-shadow hover:shadow-card"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold">{r.vehicle}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {r.from} – {r.to} · {r.service}
+                      </p>
+                    </div>
+                    <StatusPill status={r.status} />
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-semibold text-foreground">{eur(r.price)}</span> ·{" "}
+                      {r.paymentMethod}
+                    </p>
+                    {r.status === "completed" && (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="h-9 rounded-xl"
+                        onClick={() =>
+                          toast.success(`Заявка за нов наем на ${r.vehicle} е започната.`)
+                        }
+                      >
+                        <Repeat className="mr-1.5 size-3.5" />
+                        Наеми пак
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="space-y-4">
+            {/* Contracts */}
+            <section
+              id="contracts"
+              className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card"
+            >
+              <TileTitle title="Договори" hint={`${contracts.length} бр.`} />
+              <div className="mt-3 space-y-2.5">
+                {contracts.map((c) => (
+                  <div
+                    key={c.id}
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/50 p-3.5"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold">{c.reference}</p>
+                      <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                        {c.signedAt} · PDF {c.fileSize}
+                      </p>
+                    </div>
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      className="size-9 shrink-0 rounded-xl"
+                      onClick={() => toast.success("Изтеглянето на PDF започна.")}
+                      aria-label="Свали PDF"
+                    >
+                      <Download className="size-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Payments */}
+            <section
+              id="payments"
+              className="scroll-mt-24 rounded-3xl border border-border bg-card p-5 shadow-card"
+            >
+              <TileTitle title="Плащания" hint="история" />
+              <div className="mt-3 space-y-2">
+                {payments.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/50 px-3.5 py-2.5"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold">
+                        {eur(p.amount)}
+                        {p.status === "refunded" && (
+                          <span className="ml-2 text-xs font-medium text-muted-foreground">
+                            възстановено
+                          </span>
+                        )}
+                      </p>
+                      <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                        {p.date} · {p.method}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button
+                variant="secondary"
+                className="mt-3 h-11 w-full rounded-xl"
+                onClick={() => toast.success("Справката (CSV) се генерира.")}
+              >
+                <Download className="mr-2 size-4" />
+                Свали справка (CSV)
+              </Button>
+            </section>
+          </div>
+        </div>
+      </main>
+    </AppShell>
   );
 }
 
-function StatCard({ emoji, value, label }: { emoji: string; value: string; label: string }) {
+function Stat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-3.5 text-center shadow-card">
-      <span className="text-lg leading-none" aria-hidden>
-        {emoji}
-      </span>
-      <p className="tabular mt-1.5 text-xl font-bold leading-none">{value}</p>
-      <p className="mt-1 text-[11px] leading-tight text-muted-foreground">{label}</p>
+    <div
+      className={`min-w-[92px] rounded-2xl border border-border px-3.5 py-2.5 shadow-card ${
+        accent ? "bg-navy text-white" : "bg-card"
+      }`}
+    >
+      <p className="tabular font-display text-xl leading-none">{value}</p>
+      <p className={`mt-1 text-[11px] leading-tight ${accent ? "text-white/70" : "text-muted-foreground"}`}>
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function TileTitle({
+  icon,
+  title,
+  hint,
+}: {
+  icon?: React.ReactNode;
+  title: string;
+  hint?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <h2 className="flex items-center gap-2 text-sm uppercase tracking-tight">
+        {icon}
+        {title}
+      </h2>
+      {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
     </div>
   );
 }
