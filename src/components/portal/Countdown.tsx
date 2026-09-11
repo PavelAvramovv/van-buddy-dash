@@ -12,12 +12,33 @@ function diff(target: string) {
 }
 
 export function Countdown({ target }: { target: string }) {
-  const [t, setT] = useState(() => diff(target));
+  const [t, setT] = useState<ReturnType<typeof diff> | null>(null);
 
   useEffect(() => {
+    setT(diff(target));
     const id = setInterval(() => setT(diff(target)), 1000);
     return () => clearInterval(id);
   }, [target]);
+
+  if (!t) {
+    return (
+      <div className="grid grid-cols-4 gap-2">
+        {["дни", "часа", "мин", "сек"].map((label) => (
+          <div
+            key={label}
+            className="rounded-2xl border border-border/60 bg-background/35 px-1 py-2.5 text-center backdrop-blur-sm"
+          >
+            <div className="tabular text-2xl font-bold leading-none text-foreground sm:text-3xl">
+              --
+            </div>
+            <div className="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-foreground/60">
+              {label}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const cells = [
     { value: t.days, label: "дни" },
