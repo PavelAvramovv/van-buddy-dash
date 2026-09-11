@@ -31,7 +31,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Link
                   key={item.label}
                   to={item.to}
-                  hash={"hash" in item ? item.hash : undefined}
+                  {...("hash" in item ? { hash: item.hash } : {})}
                   className={cn(
                     "group grid size-12 place-items-center rounded-2xl transition-colors duration-300",
                     active
@@ -98,7 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link
               key={item.label}
               to={item.to}
-              hash={"hash" in item ? item.hash : undefined}
+              {...("hash" in item ? { hash: item.hash } : {})}
               className={cn(
                 "grid size-11 place-items-center rounded-2xl transition-colors",
                 active ? "bg-primary text-primary-foreground" : "text-white/50",
