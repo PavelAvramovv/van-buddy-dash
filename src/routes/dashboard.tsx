@@ -367,7 +367,7 @@ function Stat({ value, label, accent }: { value: string; label: string; accent?:
     <div
       className={`min-w-[96px] rounded-2xl px-3.5 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 ${
         accent
-          ? "bg-navy text-white shadow-glow ring-1 ring-white/10"
+          ? "bg-gradient-hero text-white shadow-glow ring-1 ring-gold/25"
           : "card-premium"
       }`}
     >
