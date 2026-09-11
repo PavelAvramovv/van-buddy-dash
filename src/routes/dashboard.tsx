@@ -93,7 +93,7 @@ function Dashboard() {
         {/* Bento */}
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           {/* Active rental — hero tile */}
-          <section className="on-dark sheen grain sweep relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow ring-1 ring-white/10 lg:col-span-2 lg:p-6">
+          <section className="on-dark sheen grain relative overflow-hidden rounded-3xl bg-gradient-active p-5 shadow-glow ring-1 ring-white/10 lg:col-span-2 lg:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
