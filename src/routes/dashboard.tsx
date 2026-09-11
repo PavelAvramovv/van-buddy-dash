@@ -154,7 +154,7 @@ function Dashboard() {
           </section>
 
           {/* Upcoming */}
-          <section className="on-dark sheen relative overflow-hidden rounded-3xl bg-gradient-upcoming p-5 shadow-elevated ring-1 ring-white/10">
+          <section className="on-dark sheen sweep relative overflow-hidden rounded-3xl bg-gradient-upcoming p-5 shadow-elevated ring-1 ring-white/10">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]">
               <CalendarClock className="size-3.5" />
               Предстоящ наем
