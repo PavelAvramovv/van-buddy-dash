@@ -23,7 +23,7 @@ export function BrandBadge({
   className?: string;
   size?: "sm" | "md";
 }) {
-  const mark = marks[brand] ?? marks["24Cargo"];
+  const mark = marks[brand] ?? { label: "24Cargo", short: "24" };
 
   return (
     <div
