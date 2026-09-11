@@ -45,7 +45,12 @@ export function FuelGauge({ level, litersUsed, tankCapacity }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg viewBox="0 0 220 128" className="w-full max-w-[240px]" role="img" aria-label={`Ниво на гориво: ${Math.round(clamped * 100)}%`}>
+      <svg
+        viewBox="0 0 220 160"
+        className="w-full max-w-[250px]"
+        role="img"
+        aria-label={`Ниво на гориво: ${Math.round(clamped * 100)}%`}
+      >
         <defs>
           <linearGradient id="fuelArc" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="var(--primary)" />
@@ -109,16 +114,16 @@ export function FuelGauge({ level, litersUsed, tankCapacity }: Props) {
         <circle cx={cx} cy={cy} r="9" fill="var(--card)" stroke="var(--foreground)" strokeWidth="2.5" />
         <circle cx={cx} cy={cy} r="3" fill="var(--primary)" />
 
-        <text x={cx - r + 4} y={cy + 20} textAnchor="middle" className="fill-current text-foreground" fontSize="13" fontWeight="700">
+        <text x={cx - r + 2} y={cy + 6} textAnchor="middle" fill="var(--foreground)" fontSize="13" fontWeight="700">
           E
         </text>
-        <text x={cx + r - 4} y={cy + 20} textAnchor="middle" className="fill-current text-foreground" fontSize="13" fontWeight="700">
+        <text x={cx + r - 2} y={cy + 6} textAnchor="middle" fill="var(--foreground)" fontSize="13" fontWeight="700">
           F
         </text>
-        <text x={cx} y={cy - 24} textAnchor="middle" fill="var(--muted-foreground)" fontSize="10" letterSpacing="2">
+        <text x={cx} y={cy + 26} textAnchor="middle" fill="var(--muted-foreground)" fontSize="9" letterSpacing="2.5">
           ГОРИВО
         </text>
-        <text x={cx} y={cy - 6} textAnchor="middle" fill="var(--foreground)" fontSize="20" fontWeight="700">
+        <text x={cx} y={cy + 48} textAnchor="middle" fill="var(--foreground)" fontSize="22" fontWeight="700">
           {Math.round(clamped * 100)}%
         </text>
       </svg>
